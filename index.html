@@ -505,7 +505,7 @@
   }
   animateRing();
 
-  // Intro animation sequence
+  // Intro animation
   const intro = document.getElementById('intro');
   const main = document.getElementById('main');
   const lineTop = document.getElementById('line-top');
@@ -513,18 +513,6 @@
   const introName = document.getElementById('intro-name');
 
   function ease(t) { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; }
-
-  function animateWidth(el, from, to, duration, delay) {
-    setTimeout(() => {
-      const start = performance.now();
-      function step(now) {
-        const p = Math.min((now - start) / duration, 1);
-        el.style.width = (from + (to - from) * ease(p)) + 'px';
-        if (p < 1) requestAnimationFrame(step);
-      }
-      requestAnimationFrame(step);
-    }, delay);
-  }
 
   // Step 1: lines expand
   setTimeout(() => {
@@ -535,24 +523,18 @@
     lineBot.style.width = w + 'px';
   }, 200);
 
-  // Step 2: words fade in
-  setTimeout(() => {
-    introSub.style.transition = 'opacity 0.8s ease';
-    introSub.style.opacity = '1';
-  }, 900);
-
+  // Step 2: SCIAMAT fades in
   setTimeout(() => {
     introName.style.transition = 'opacity 1s ease, letter-spacing 1.2s ease';
     introName.style.opacity = '1';
     introName.style.letterSpacing = '0.2em';
-  }, 1100);
+  }, 800);
 
-  setTimeout(() => {
   // Step 3: hold then fade out
   setTimeout(() => {
     intro.style.transition = 'opacity 1s ease';
     intro.style.opacity = '0';
-  }, 3200);
+  }, 2800);
 
   // Step 4: reveal main
   setTimeout(() => {
@@ -560,10 +542,8 @@
     main.style.transition = 'opacity 1.2s ease';
     main.style.opacity = '1';
 
-    // Trigger hero zoom
     document.getElementById('heroImg').classList.add('zoomed');
 
-    // Reveal UI elements
     setTimeout(() => {
       document.getElementById('topNav').classList.add('visible');
       document.querySelectorAll('.corner').forEach(c => c.classList.add('visible'));
@@ -578,9 +558,9 @@
       document.getElementById('footer').classList.add('visible');
     }, 800);
 
-  }, 4200);
+  }, 3800);
 
-  // Subtle parallax on mouse move (after main visible)
+  // Parallax on mouse move
   document.addEventListener('mousemove', e => {
     if (parseFloat(main.style.opacity) < 0.5) return;
     const xRatio = (e.clientX / window.innerWidth - 0.5) * 2;
