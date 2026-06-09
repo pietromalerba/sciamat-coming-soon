@@ -156,35 +156,7 @@
     z-index: 10;
   }
 
-  .nav-claim {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 200;
-    font-size: 10px;
-    letter-spacing: 0.4em;
-    color: rgba(245,240,232,0.5);
-    text-transform: uppercase;
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: opacity 1s ease 0.5s, transform 1s ease 0.5s;
-  }
 
-  .nav-city {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 200;
-    font-size: 10px;
-    letter-spacing: 0.5em;
-    color: var(--gold-dim);
-    text-transform: uppercase;
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: opacity 1s ease 0.7s, transform 1s ease 0.7s;
-  }
-
-  .nav.visible .nav-claim,
-  .nav.visible .nav-city {
-    opacity: 1;
-    transform: translateY(0);
-  }
 
   /* Center logo area */
   .center-content {
@@ -468,10 +440,7 @@
   <div class="corner corner-br"></div>
 
   <!-- Navigation top -->
-  <nav class="nav" id="topNav">
-    
-    
-  </nav>
+  
 
   <!-- Decorative horizontal lines -->
   <div class="deco-line-left" id="decoL"></div>
@@ -594,7 +563,6 @@
     document.getElementById('heroImg').classList.add('zoomed');
 
     setTimeout(() => {
-      document.getElementById('topNav').classList.add('visible');
       document.querySelectorAll('.corner').forEach(c => c.classList.add('visible'));
       document.getElementById('decoL').classList.add('visible');
       document.getElementById('decoR').classList.add('visible');
