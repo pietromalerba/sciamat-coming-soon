@@ -313,6 +313,54 @@
     background: rgba(201,168,76,0.2);
   }
 
+  @media (max-width: 600px) {
+    .social-row {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.2rem;
+      padding: 0 1rem;
+      max-width: 300px;
+    }
+
+    .social-divider {
+      display: none;
+    }
+
+    .social-icon {
+      width: 40px;
+      height: 40px;
+    }
+
+    .social-label {
+      font-size: 7px;
+      letter-spacing: 0.15em;
+    }
+
+    .coming-soon-main {
+      font-size: clamp(11px, 4.5vw, 18px);
+      letter-spacing: 0.3em;
+    }
+
+    .coming-soon-center {
+      top: 18%;
+      width: 90%;
+      white-space: normal;
+      text-align: center;
+    }
+
+    .center-content {
+      padding-bottom: 5rem;
+    }
+
+    .footer {
+      padding-bottom: 1rem;
+    }
+
+    .corner {
+      display: none;
+    }
+  }
+
   /* Footer */
   .footer {
     position: absolute;
