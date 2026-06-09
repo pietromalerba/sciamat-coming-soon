@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sciamat Milano</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8CC80;
+    --gold-dim: #8A6E30;
+    --white: #F5F0E8;
+    --black: #050505;
+    --gray: #1a1a1a;
+  }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: var(--black);
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease, background 0.3s;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(201,168,76,0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.25s ease, width 0.3s, height 0.3s;
+  }
+
+  /* Intro overlay */
+  #intro {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: var(--black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .intro-line {
+    overflow: hidden;
+    height: 1px;
+    background: var(--gold-dim);
+    width: 0;
+    margin: 0 auto;
+  }
+
+  .intro-wordmark {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 200;
+    font-size: clamp(10px, 2vw, 16px);
+    letter-spacing: 0.6em;
+    color: var(--gold);
+    opacity: 0;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 1.5rem 0;
+  }
+
+  .intro-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(48px, 10vw, 96px);
+    letter-spacing: 0.15em;
+    color: var(--white);
+    opacity: 0;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1;
+  }
+
+  /* Main page */
+  #main {
+    position: fixed;
+    inset: 0;
+    opacity: 0;
+  }
+
+  /* Hero */
+  .hero {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    transform: scale(1.08);
+    transform-origin: center;
+    filter: contrast(1.05) brightness(0.92);
+    transition: transform 8s ease-out;
+  }
+
+  .hero-img.zoomed {
+    transform: scale(1.0);
+  }
+
+  /* Vignette */
+  .vignette {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,0.55) 100%),
+      linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, transparent 20%, transparent 65%, rgba(0,0,0,0.85) 100%);
+  }
+
+  /* Noise texture overlay */
+  .noise {
+    position: absolute;
+    inset: 0;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+  }
+
+  /* Top nav */
+  .nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2.5rem 4rem;
+    z-index: 10;
+  }
+
+  .nav-claim {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 200;
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    color: rgba(245,240,232,0.5);
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 1s ease 0.5s, transform 1s ease 0.5s;
+  }
+
+  .nav-city {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 200;
+    font-size: 10px;
+    letter-spacing: 0.5em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 1s ease 0.7s, transform 1s ease 0.7s;
+  }
+
+  .nav.visible .nav-claim,
+  .nav.visible .nav-city {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Center logo area */
+  .center-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 4rem;
+    z-index: 10;
+  }
+
+  /* Coming soon block */
+  .coming-soon-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 1s ease 0.5s, transform 1s ease 0.5s;
+  }
+
+  .coming-soon-block.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .coming-soon-eyebrow {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 200;
+    font-size: clamp(9px, 1.2vw, 11px);
+    letter-spacing: 0.55em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+  }
+
+  .coming-soon-main {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: clamp(22px, 3.5vw, 42px);
+    letter-spacing: 0.12em;
+    color: var(--white);
+    text-align: center;
+    line-height: 1.1;
+  }
+
+  .coming-soon-year {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 200;
+    font-size: clamp(10px, 1.3vw, 13px);
+    letter-spacing: 0.5em;
+    color: var(--gold);
+    text-transform: uppercase;
+    padding: 0.5rem 1.8rem;
+    border: 1px solid rgba(201,168,76,0.3);
+    margin-top: 0.3rem;
+  }
+
+  /* Gold separator line */
+  .separator {
+    width: 1px;
+    height: 0;
+    background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+    margin-bottom: 2rem;
+    transition: height 1.2s ease 0.3s;
+  }
+
+  .separator.visible {
+    height: 60px;
+  }
+
+  /* Social icons row */
+  .social-row {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease 0.8s, transform 1s ease 0.8s;
+  }
+
+  .social-row.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .social-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    cursor: none;
+  }
+
+  .social-icon {
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(201,168,76,0.35);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.3s, background 0.3s;
+  }
+
+  .social-link:hover .social-icon {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.1);
+  }
+
+  .social-icon svg {
+    width: 15px;
+    height: 15px;
+    fill: var(--gold);
+    opacity: 0.8;
+    transition: opacity 0.3s;
+  }
+
+  .social-link:hover .social-icon svg {
+    opacity: 1;
+  }
+
+  .social-label {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: 8px;
+    letter-spacing: 0.25em;
+    color: rgba(201,168,76,0.55);
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition: color 0.3s;
+  }
+
+  .social-link:hover .social-label {
+    color: var(--gold);
+  }
+
+  .social-divider {
+    width: 1px;
+    height: 24px;
+    background: rgba(201,168,76,0.2);
+  }
+
+  /* Footer */
+  .footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 1.2rem;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 1.5s ease 1.2s;
+  }
+
+  .footer.visible {
+    opacity: 1;
+  }
+
+  .footer-vat {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 200;
+    font-size: 8px;
+    letter-spacing: 0.3em;
+    color: rgba(245,240,232,0.2);
+    text-transform: uppercase;
+  }
+
+  /* Horizontal gold lines decorative */
+  .deco-line-left,
+  .deco-line-right {
+    position: absolute;
+    top: 50%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold-dim));
+    width: 0;
+    transition: width 1.5s ease 0.5s;
+    opacity: 0.3;
+  }
+
+  .deco-line-left {
+    right: 55%;
+    background: linear-gradient(to left, transparent, var(--gold-dim));
+  }
+
+  .deco-line-right {
+    left: 55%;
+  }
+
+  .deco-line-left.visible,
+  .deco-line-right.visible {
+    width: 15%;
+  }
+
+  /* Corner marks */
+  .corner {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    opacity: 0;
+    transition: opacity 1s ease 0.8s;
+  }
+
+  .corner.visible { opacity: 0.4; }
+
+  .corner-tl { top: 2.5rem; left: 2.5rem; border-top: 1px solid var(--gold); border-left: 1px solid var(--gold); }
+  .corner-tr { top: 2.5rem; right: 2.5rem; border-top: 1px solid var(--gold); border-right: 1px solid var(--gold); }
+  .corner-bl { bottom: 1.8rem; left: 2.5rem; border-bottom: 1px solid var(--gold); border-left: 1px solid var(--gold); }
+  .corner-br { bottom: 1.8rem; right: 2.5rem; border-bottom: 1px solid var(--gold); border-right: 1px solid var(--gold); }
+
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<!-- Intro sequence -->
+<div id="intro">
+  <div class="intro-line" id="line-top" style="width:0;"></div>
+  <div style="padding: 0 4rem; text-align:center;">
+    <div class="intro-wordmark" id="intro-sub">Milano</div>
+    <div class="intro-title" id="intro-name">Sciamat</div>
+    <div class="intro-wordmark" id="intro-tag" style="padding-top: 1rem; padding-bottom: 0;">Sartoria Contemporanea</div>
+  </div>
+  <div class="intro-line" id="line-bot" style="width:0;"></div>
+</div>
+
+<!-- Main page -->
+<div id="main">
+  <!-- Hero image -->
+  <div class="hero">
+    <img class="hero-img" id="heroImg" src="sciamat_home_bg.jpg" alt="Sciamat Milano — uomo in abito sartoriale">
+    <div class="vignette"></div>
+    <div class="noise"></div>
+  </div>
+
+  <!-- Corner decorations -->
+  <div class="corner corner-tl"></div>
+  <div class="corner corner-tr"></div>
+  <div class="corner corner-bl"></div>
+  <div class="corner corner-br"></div>
+
+  <!-- Navigation top -->
+  <nav class="nav" id="topNav">
+    <span class="nav-claim">La forma del carattere</span>
+    <span class="nav-city">Milano — Italia</span>
+  </nav>
+
+  <!-- Decorative horizontal lines -->
+  <div class="deco-line-left" id="decoL"></div>
+  <div class="deco-line-right" id="decoR"></div>
+
+  <!-- Bottom content -->
+  <div class="center-content">
+    <!-- Coming soon -->
+    <div class="coming-soon-block" id="comingSoon">
+      <span class="coming-soon-eyebrow">New website</span>
+      <span class="coming-soon-main">Coming Soon</span>
+      <span class="coming-soon-year">2026</span>
+    </div>
+
+    <div class="separator" id="separator"></div>
+
+    <!-- Social links -->
+    <div class="social-row" id="socialRow">
+      <a class="social-link" href="https://www.instagram.com/sciamatofficial/" target="_blank" rel="noopener">
+        <div class="social-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+          </svg>
+        </div>
+        <span class="social-label">Sciamat</span>
+      </a>
+
+      <div class="social-divider"></div>
+
+      <a class="social-link" href="https://www.instagram.com/ladysciamatofficial/" target="_blank" rel="noopener">
+        <div class="social-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+          </svg>
+        </div>
+        <span class="social-label">Lady Sciamat</span>
+      </a>
+
+      <div class="social-divider"></div>
+
+      <a class="social-link" href="https://www.facebook.com/Sciamat" target="_blank" rel="noopener">
+        <div class="social-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+          </svg>
+        </div>
+        <span class="social-label">Sciamat</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- VAT footer -->
+  <div class="footer" id="footer">
+    <span class="footer-vat">P.I. 05903670726</span>
+  </div>
+</div>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+  });
+
+  function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  // Intro animation sequence
+  const intro = document.getElementById('intro');
+  const main = document.getElementById('main');
+  const lineTop = document.getElementById('line-top');
+  const lineBot = document.getElementById('line-bot');
+  const introSub = document.getElementById('intro-sub');
+  const introName = document.getElementById('intro-name');
+  const introTag = document.getElementById('intro-tag');
+
+  function ease(t) { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; }
+
+  function animateWidth(el, from, to, duration, delay) {
+    setTimeout(() => {
+      const start = performance.now();
+      function step(now) {
+        const p = Math.min((now - start) / duration, 1);
+        el.style.width = (from + (to - from) * ease(p)) + 'px';
+        if (p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }, delay);
+  }
+
+  // Step 1: lines expand
+  setTimeout(() => {
+    const w = Math.min(window.innerWidth * 0.55, 520);
+    lineTop.style.transition = 'width 1.2s cubic-bezier(0.4,0,0.2,1)';
+    lineTop.style.width = w + 'px';
+    lineBot.style.transition = 'width 1.2s cubic-bezier(0.4,0,0.2,1)';
+    lineBot.style.width = w + 'px';
+  }, 200);
+
+  // Step 2: words fade in
+  setTimeout(() => {
+    introSub.style.transition = 'opacity 0.8s ease';
+    introSub.style.opacity = '1';
+  }, 900);
+
+  setTimeout(() => {
+    introName.style.transition = 'opacity 1s ease, letter-spacing 1.2s ease';
+    introName.style.opacity = '1';
+    introName.style.letterSpacing = '0.2em';
+  }, 1100);
+
+  setTimeout(() => {
+    introTag.style.transition = 'opacity 0.8s ease';
+    introTag.style.opacity = '1';
+  }, 1600);
+
+  // Step 3: hold then fade out
+  setTimeout(() => {
+    intro.style.transition = 'opacity 1s ease';
+    intro.style.opacity = '0';
+  }, 3200);
+
+  // Step 4: reveal main
+  setTimeout(() => {
+    intro.style.display = 'none';
+    main.style.transition = 'opacity 1.2s ease';
+    main.style.opacity = '1';
+
+    // Trigger hero zoom
+    document.getElementById('heroImg').classList.add('zoomed');
+
+    // Reveal UI elements
+    setTimeout(() => {
+      document.getElementById('topNav').classList.add('visible');
+      document.querySelectorAll('.corner').forEach(c => c.classList.add('visible'));
+      document.getElementById('decoL').classList.add('visible');
+      document.getElementById('decoR').classList.add('visible');
+      document.getElementById('comingSoon').classList.add('visible');
+      document.getElementById('separator').classList.add('visible');
+    }, 300);
+
+    setTimeout(() => {
+      document.getElementById('socialRow').classList.add('visible');
+      document.getElementById('footer').classList.add('visible');
+    }, 800);
+
+  }, 4200);
+
+  // Subtle parallax on mouse move (after main visible)
+  document.addEventListener('mousemove', e => {
+    if (parseFloat(main.style.opacity) < 0.5) return;
+    const xRatio = (e.clientX / window.innerWidth - 0.5) * 2;
+    const yRatio = (e.clientY / window.innerHeight - 0.5) * 2;
+    const img = document.getElementById('heroImg');
+    img.style.transform = `scale(1.0) translate(${xRatio * 6}px, ${yRatio * 4}px)`;
+  });
+</script>
+</body>
+</html>
