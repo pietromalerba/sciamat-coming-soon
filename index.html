@@ -218,10 +218,10 @@
 
   .coming-soon-main {
     font-family: 'Montserrat', sans-serif;
-    font-weight: 200;
-    font-size: clamp(9px, 1.1vw, 12px);
-    letter-spacing: 0.45em;
-    color: rgba(245,240,232,0.55);
+    font-weight: 300;
+    font-size: clamp(11px, 1.6vw, 18px);
+    letter-spacing: 0.4em;
+    color: rgba(245,240,232,0.9);
     text-transform: uppercase;
     text-align: center;
   }
@@ -393,9 +393,7 @@
 <div id="intro">
   <div class="intro-line" id="line-top" style="width:0;"></div>
   <div style="padding: 0 4rem; text-align:center;">
-    <div class="intro-wordmark" id="intro-sub">Milano</div>
     <div class="intro-title" id="intro-name">Sciamat</div>
-    <div class="intro-wordmark" id="intro-tag" style="padding-top: 1rem; padding-bottom: 0;">Sartoria Contemporanea</div>
   </div>
   <div class="intro-line" id="line-bot" style="width:0;"></div>
 </div>
@@ -417,7 +415,7 @@
 
   <!-- Navigation top -->
   <nav class="nav" id="topNav">
-    <span class="nav-claim">La forma del carattere</span>
+    
     <span class="nav-city">Milano — Italia</span>
   </nav>
 
@@ -427,12 +425,12 @@
 
   <!-- Bottom content -->
   <div class="center-content">
-    <div class="separator" id="separator"></div>
-
     <!-- Coming soon -->
     <div class="coming-soon-block" id="comingSoon">
       <span class="coming-soon-main">Coming soon — new website</span>
     </div>
+
+    <div class="separator" id="separator"></div>
 
     <!-- Social links -->
     <div class="social-row" id="socialRow">
@@ -466,12 +464,23 @@
         </div>
         <span class="social-label">Sciamat</span>
       </a>
+
+      <div class="social-divider"></div>
+
+      <a class="social-link" href="https://www.instagram.com/sciamat_vibe/" target="_blank" rel="noopener">
+        <div class="social-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+          </svg>
+        </div>
+        <span class="social-label">Sciamat Vibe</span>
+      </a>
     </div>
   </div>
 
   <!-- VAT footer -->
   <div class="footer" id="footer">
-    <span class="footer-vat">P.I. 05903670726</span>
+    <span class="footer-vat">info@sciamat.com &nbsp;&nbsp;·&nbsp;&nbsp; P.I. 05903670726</span>
   </div>
 </div>
 
@@ -501,9 +510,7 @@
   const main = document.getElementById('main');
   const lineTop = document.getElementById('line-top');
   const lineBot = document.getElementById('line-bot');
-  const introSub = document.getElementById('intro-sub');
   const introName = document.getElementById('intro-name');
-  const introTag = document.getElementById('intro-tag');
 
   function ease(t) { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; }
 
@@ -541,10 +548,6 @@
   }, 1100);
 
   setTimeout(() => {
-    introTag.style.transition = 'opacity 0.8s ease';
-    introTag.style.opacity = '1';
-  }, 1600);
-
   // Step 3: hold then fade out
   setTimeout(() => {
     intro.style.transition = 'opacity 1s ease';
