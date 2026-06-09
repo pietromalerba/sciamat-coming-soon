@@ -14,12 +14,12 @@
     {
       "source": "/shop/:path*",
       "destination": "/",
-      "permanent": true
+      "permanent": false
     },
     {
-      "source": "/:path*",
+      "source": "/((?!sciamat_home_bg\\.jpg$).*)",
       "destination": "/",
-      "permanent": true
+      "permanent": false
     }
   ]
 }
