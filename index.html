@@ -199,31 +199,32 @@
     z-index: 10;
   }
 
-  /* Coming soon block */
-  .coming-soon-block {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.6rem;
-    margin-bottom: 2.5rem;
+  /* Coming soon — centered above logo */
+  .coming-soon-center {
+    position: absolute;
+    top: 36%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    z-index: 10;
+    text-align: center;
     opacity: 0;
-    transform: translateY(16px);
     transition: opacity 1s ease 0.5s, transform 1s ease 0.5s;
+    white-space: nowrap;
   }
 
-  .coming-soon-block.visible {
+  .coming-soon-center.visible {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(-50%) translateY(0);
   }
 
   .coming-soon-main {
     font-family: 'Montserrat', sans-serif;
     font-weight: 300;
-    font-size: clamp(11px, 1.6vw, 18px);
-    letter-spacing: 0.4em;
-    color: rgba(245,240,232,0.9);
+    font-size: clamp(13px, 2vw, 22px);
+    letter-spacing: 0.5em;
+    color: rgba(245,240,232,0.95);
     text-transform: uppercase;
-    text-align: center;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.6);
   }
 
   /* Gold separator line */
@@ -407,6 +408,11 @@
     <div class="noise"></div>
   </div>
 
+  <!-- Coming soon — center top, above logo -->
+  <div class="coming-soon-center" id="comingSoon">
+    <span class="coming-soon-main">Coming soon — new website</span>
+  </div>
+
   <!-- Corner decorations -->
   <div class="corner corner-tl"></div>
   <div class="corner corner-tr"></div>
@@ -425,11 +431,6 @@
 
   <!-- Bottom content -->
   <div class="center-content">
-    <!-- Coming soon -->
-    <div class="coming-soon-block" id="comingSoon">
-      <span class="coming-soon-main">Coming soon — new website</span>
-    </div>
-
     <div class="separator" id="separator"></div>
 
     <!-- Social links -->
