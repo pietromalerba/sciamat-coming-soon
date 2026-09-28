@@ -1,20 +1,9 @@
 {
-  "version": 2,
-  "routes": [
+  "cleanUrls": true,
+  "headers": [
     {
-      "src": "/sciamat_home_bg.jpg",
-      "dest": "/sciamat_home_bg.jpg"
-    },
-    {
-      "src": "/",
-      "dest": "/index.html"
-    },
-    {
-      "src": "/(.*)",
-      "status": 302,
-      "headers": {
-        "Location": "/"
-      }
+      "source": "/assets/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
     }
   ]
 }

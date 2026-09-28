@@ -1,0 +1,6 @@
+.DS_Store
+*.pdf
+tmp/
+output/
+.playwright-mcp/
+.impeccable.md

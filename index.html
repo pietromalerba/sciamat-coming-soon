@@ -1,590 +1,126 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sciamat Milano</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Sciamat - Italian bespoke tailoring and contemporary collections, handmade in Puglia." />
+    <title>Sciamat — Bespoke tailoring, made by hand</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%2345205d%22/><text x=%2250%22 y=%2268%22 text-anchor=%22middle%22 font-size=%2256%22 fill=%22%23e7cf9c%22>S</text></svg>" />
+    <link rel="preload" href="assets/brochure/page-01.webp" as="image" fetchpriority="high" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
 
-  :root {
-    --gold: #C9A84C;
-    --gold-light: #E8CC80;
-    --gold-dim: #8A6E30;
-    --white: #F5F0E8;
-    --black: #050505;
-    --gray: #1a1a1a;
-  }
-
-  html, body {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background: var(--black);
-    cursor: none;
-  }
-
-  /* Custom cursor */
-  .cursor {
-    position: fixed;
-    width: 8px;
-    height: 8px;
-    background: var(--gold);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    transition: transform 0.1s ease, background 0.3s;
-  }
-  .cursor-ring {
-    position: fixed;
-    width: 32px;
-    height: 32px;
-    border: 1px solid rgba(201,168,76,0.5);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9998;
-    transform: translate(-50%, -50%);
-    transition: transform 0.25s ease, width 0.3s, height 0.3s;
-  }
-
-  /* Intro overlay */
-  #intro {
-    position: fixed;
-    inset: 0;
-    z-index: 100;
-    background: var(--black);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 0;
-  }
-
-  .intro-line {
-    overflow: hidden;
-    height: 1px;
-    background: var(--gold-dim);
-    width: 0;
-    margin: 0 auto;
-  }
-
-  .intro-wordmark {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 200;
-    font-size: clamp(10px, 2vw, 16px);
-    letter-spacing: 0.6em;
-    color: var(--gold);
-    opacity: 0;
-    text-transform: uppercase;
-    text-align: center;
-    padding: 1.5rem 0;
-  }
-
-  .intro-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 300;
-    font-size: clamp(48px, 10vw, 96px);
-    letter-spacing: 0.15em;
-    color: var(--white);
-    opacity: 0;
-    text-transform: uppercase;
-    text-align: center;
-    line-height: 1;
-  }
-
-  /* Main page */
-  #main {
-    position: fixed;
-    inset: 0;
-    opacity: 0;
-  }
-
-  /* Hero */
-  .hero {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-  }
-
-  .hero-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center top;
-    transform: scale(1.08);
-    transform-origin: center;
-    filter: contrast(1.05) brightness(0.92);
-    transition: transform 8s ease-out;
-  }
-
-  .hero-img.zoomed {
-    transform: scale(1.0);
-  }
-
-  /* Vignette */
-  .vignette {
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,0.55) 100%),
-      linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, transparent 20%, transparent 65%, rgba(0,0,0,0.85) 100%);
-  }
-
-  /* Noise texture overlay */
-  .noise {
-    position: absolute;
-    inset: 0;
-    opacity: 0.03;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-    background-size: 200px 200px;
-  }
-
-  /* Top nav */
-  .nav {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 2.5rem 4rem;
-    z-index: 10;
-  }
-
-
-
-  /* Center logo area */
-  .center-content {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-bottom: 4rem;
-    z-index: 10;
-  }
-
-  /* Coming soon — centered above logo */
-  .coming-soon-center {
-    position: absolute;
-    top: 22%;
-    left: 50%;
-    transform: translateX(-50%) translateY(10px);
-    z-index: 10;
-    text-align: center;
-    opacity: 0;
-    transition: opacity 1s ease 0.5s, transform 1s ease 0.5s;
-    white-space: nowrap;
-  }
-
-  .coming-soon-center.visible {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-
-  .coming-soon-main {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 300;
-    font-size: clamp(16px, 2.8vw, 32px);
-    letter-spacing: 0.55em;
-    color: #ffffff;
-    text-transform: uppercase;
-    text-shadow: 0 2px 30px rgba(0,0,0,0.8), 0 0 60px rgba(0,0,0,0.5);
-  }
-
-  /* Gold separator line */
-  .separator {
-    width: 1px;
-    height: 0;
-    background: linear-gradient(to bottom, transparent, var(--gold), transparent);
-    margin-bottom: 2rem;
-    transition: height 1.2s ease 0.3s;
-  }
-
-  .separator.visible {
-    height: 60px;
-  }
-
-  /* Social icons row */
-  .social-row {
-    display: flex;
-    align-items: center;
-    gap: 2.5rem;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 1s ease 0.8s, transform 1s ease 0.8s;
-  }
-
-  .social-row.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .social-link {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    text-decoration: none;
-    cursor: none;
-  }
-
-  .social-icon {
-    width: 36px;
-    height: 36px;
-    border: 1px solid rgba(201,168,76,0.35);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: border-color 0.3s, background 0.3s;
-  }
-
-  .social-link:hover .social-icon {
-    border-color: var(--gold);
-    background: rgba(201,168,76,0.1);
-  }
-
-  .social-icon svg {
-    width: 15px;
-    height: 15px;
-    fill: var(--gold);
-    opacity: 0.8;
-    transition: opacity 0.3s;
-  }
-
-  .social-link:hover .social-icon svg {
-    opacity: 1;
-  }
-
-  .social-label {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 300;
-    font-size: 8px;
-    letter-spacing: 0.25em;
-    color: rgba(201,168,76,0.55);
-    text-transform: uppercase;
-    white-space: nowrap;
-    transition: color 0.3s;
-  }
-
-  .social-link:hover .social-label {
-    color: var(--gold);
-  }
-
-  .social-divider {
-    width: 1px;
-    height: 24px;
-    background: rgba(201,168,76,0.2);
-  }
-
-  @media (max-width: 600px) {
-    .social-row {
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1.2rem;
-      padding: 0 1rem;
-      max-width: 300px;
-    }
-
-    .social-divider {
-      display: none;
-    }
-
-    .social-icon {
-      width: 40px;
-      height: 40px;
-    }
-
-    .social-label {
-      font-size: 7px;
-      letter-spacing: 0.15em;
-    }
-
-    .coming-soon-main {
-      font-size: clamp(11px, 4.5vw, 18px);
-      letter-spacing: 0.3em;
-    }
-
-    .coming-soon-center {
-      top: 18%;
-      width: 90%;
-      white-space: normal;
-      text-align: center;
-    }
-
-    .center-content {
-      padding-bottom: 5rem;
-    }
-
-    .footer {
-      padding-bottom: 1rem;
-    }
-
-    .corner {
-      display: none;
-    }
-  }
-
-  /* Footer */
-  .footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    padding-bottom: 1.2rem;
-    z-index: 10;
-    opacity: 0;
-    transition: opacity 1.5s ease 1.2s;
-  }
-
-  .footer.visible {
-    opacity: 1;
-  }
-
-  .footer-vat {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 200;
-    font-size: 8px;
-    letter-spacing: 0.3em;
-    color: rgba(245,240,232,0.2);
-    text-transform: uppercase;
-  }
-
-  /* Horizontal gold lines decorative */
-  .deco-line-left,
-  .deco-line-right {
-    position: absolute;
-    top: 50%;
-    height: 1px;
-    background: linear-gradient(to right, transparent, var(--gold-dim));
-    width: 0;
-    transition: width 1.5s ease 0.5s;
-    opacity: 0.3;
-  }
-
-  .deco-line-left {
-    right: 55%;
-    background: linear-gradient(to left, transparent, var(--gold-dim));
-  }
-
-  .deco-line-right {
-    left: 55%;
-  }
-
-  .deco-line-left.visible,
-  .deco-line-right.visible {
-    width: 15%;
-  }
-
-  /* Corner marks */
-  .corner {
-    position: absolute;
-    width: 24px;
-    height: 24px;
-    opacity: 0;
-    transition: opacity 1s ease 0.8s;
-  }
-
-  .corner.visible { opacity: 0.4; }
-
-  .corner-tl { top: 2.5rem; left: 2.5rem; border-top: 1px solid var(--gold); border-left: 1px solid var(--gold); }
-  .corner-tr { top: 2.5rem; right: 2.5rem; border-top: 1px solid var(--gold); border-right: 1px solid var(--gold); }
-  .corner-bl { bottom: 1.8rem; left: 2.5rem; border-bottom: 1px solid var(--gold); border-left: 1px solid var(--gold); }
-  .corner-br { bottom: 1.8rem; right: 2.5rem; border-bottom: 1px solid var(--gold); border-right: 1px solid var(--gold); }
-
-</style>
-</head>
-<body>
-
-<!-- Custom cursor -->
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursor-ring"></div>
-
-<!-- Intro sequence -->
-<div id="intro">
-  <div class="intro-line" id="line-top" style="width:0;"></div>
-  <div style="padding: 0 4rem; text-align:center;">
-    <div class="intro-title" id="intro-name">Sciamat</div>
-  </div>
-  <div class="intro-line" id="line-bot" style="width:0;"></div>
-</div>
-
-<!-- Main page -->
-<div id="main">
-  <!-- Hero image -->
-  <div class="hero">
-    <img class="hero-img" id="heroImg" src="sciamat_home_bg.jpg" alt="Sciamat Milano — uomo in abito sartoriale">
-    <div class="vignette"></div>
-    <div class="noise"></div>
-  </div>
-
-  <!-- Coming soon — center top, above logo -->
-  <div class="coming-soon-center" id="comingSoon">
-    <span class="coming-soon-main">Coming soon — new website</span>
-  </div>
-
-  <!-- Corner decorations -->
-  <div class="corner corner-tl"></div>
-  <div class="corner corner-tr"></div>
-  <div class="corner corner-bl"></div>
-  <div class="corner corner-br"></div>
-
-  <!-- Navigation top -->
-  
-
-  <!-- Decorative horizontal lines -->
-  <div class="deco-line-left" id="decoL"></div>
-  <div class="deco-line-right" id="decoR"></div>
-
-  <!-- Bottom content -->
-  <div class="center-content">
-    <div class="separator" id="separator"></div>
-
-    <!-- Social links -->
-    <div class="social-row" id="socialRow">
-      <a class="social-link" href="https://www.instagram.com/sciamatofficial/" target="_blank" rel="noopener">
-        <div class="social-icon">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-          </svg>
-        </div>
-        <span class="social-label">Sciamat</span>
+    <header class="site-header" data-header>
+      <a class="wordmark" href="#home" aria-label="Sciamat, home">
+        <span class="crown" aria-hidden="true">♛</span>
+        <span>SCIAMAT</span>
+        <small>MILANO</small>
       </a>
+      <nav aria-label="Primary navigation">
+        <a href="#craft" data-i18n="navCraft">Craft</a>
+        <a href="#vibe">Vibe</a>
+        <a href="#lady">Lady</a>
+        <a href="#contact" data-i18n="navContact">Contact</a>
+      </nav>
+      <div class="language" role="group" aria-label="Language selection">
+        <button type="button" data-language="en" aria-label="English" aria-pressed="true">🇬🇧</button>
+        <button type="button" data-language="it" aria-label="Italiano" aria-pressed="false">🇮🇹</button>
+      </div>
+    </header>
 
-      <div class="social-divider"></div>
+    <main id="main">
+      <section class="hero" id="home" aria-label="Sciamat">
+        <img src="assets/brochure/page-01.webp" alt="Sciamat navy double-breasted suit" />
+        <a class="scroll-cue" href="#craft"><span data-i18n="discover">Discover</span><i aria-hidden="true"></i></a>
+      </section>
 
-      <a class="social-link" href="https://www.instagram.com/ladysciamatofficial/" target="_blank" rel="noopener">
-        <div class="social-icon">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-          </svg>
+      <section class="editorial craft" id="craft">
+        <div class="copy reveal">
+          <p class="eyebrow" data-i18n="craftEyebrow">Made in Puglia · Made by hand</p>
+          <h1 data-i18n="craftTitle">How we make</h1>
+          <div data-i18n-html="craftBody">
+            <p>Our work is a true production line of hands. Every garment passes through expert artisans, following the most authentic tailoring tradition and a precise process that is uniquely our own.</p>
+            <p>Each Sciamat bespoke suit reveals the quality of its craftsmanship. Excellence is chosen at every stage, with care, research and the harmony that only an experienced team can achieve.</p>
+          </div>
+          <a class="text-link" href="#process"><span data-i18n="explore">Explore the process</span><span aria-hidden="true">↘</span></a>
         </div>
-        <span class="social-label">Lady Sciamat</span>
-      </a>
+        <figure class="craft-image reveal">
+          <img src="assets/brochure/page-02.webp" alt="Sciamat artisans cutting and sewing garments by hand" loading="lazy" />
+        </figure>
+      </section>
 
-      <div class="social-divider"></div>
+      <section class="process" id="process" aria-label="The tailoring process">
+        <figure class="spread tall reveal"><img src="assets/brochure/page-03.webp" alt="Sciamat jackets during a bespoke fitting" loading="lazy" /></figure>
+        <figure class="spread quiet reveal"><img src="assets/brochure/page-04.webp" alt="A tailor hand-stitching a jacket" loading="lazy" /></figure>
+        <figure class="spread tall reveal"><img src="assets/brochure/page-05.webp" alt="Sciamat pattern cutting and tailoring" loading="lazy" /></figure>
+        <figure class="spread tall reveal"><img src="assets/brochure/page-06.webp" alt="Sciamat bespoke garments in progress" loading="lazy" /></figure>
+      </section>
 
-      <a class="social-link" href="https://www.facebook.com/Sciamat" target="_blank" rel="noopener">
-        <div class="social-icon">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-          </svg>
+      <section class="vibe-intro collection-intro" id="vibe">
+        <div class="collection-mark reveal" aria-hidden="true">
+          <strong>VIBE</strong><span>SCIAMAT</span>
         </div>
-        <span class="social-label">Sciamat</span>
-      </a>
-
-      <div class="social-divider"></div>
-
-      <a class="social-link" href="https://www.instagram.com/sciamat_vibe/" target="_blank" rel="noopener">
-        <div class="social-icon">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-          </svg>
+        <div class="collection-copy reveal">
+          <p class="eyebrow">Sciamat collection</p>
+          <h2 data-i18n="vibeTitle">A contemporary sartorial rhythm.</h2>
+          <div data-i18n-html="vibeBody">
+            <p>VIBE moves between emotion, reason and character. Born from the distinctive Sciamat style, it brings the sartorial world into the present through new volumes, exceptional fabrics and the personality of a modern gentleman.</p>
+            <p>Coats, double-breasted and single-breasted suits, waistcoats and high-waisted trousers find their own rhythm in exclusive patterns created for Sciamat.</p>
+          </div>
         </div>
-        <span class="social-label">Sciamat Vibe</span>
-      </a>
-    </div>
-  </div>
+      </section>
 
-  <!-- VAT footer -->
-  <div class="footer" id="footer">
-    <span class="footer-vat">info@sciamat.com &nbsp;&nbsp;·&nbsp;&nbsp; P.I. 05903670726</span>
-  </div>
-</div>
+      <section class="lookbook" aria-label="Vibe collection lookbook">
+        <figure class="look landscape reveal"><img src="assets/brochure/page-09.webp" alt="Vibe tailored coat" loading="lazy" /></figure>
+        <figure class="look portrait left reveal"><img src="assets/brochure/page-12.webp" alt="Blue patterned Vibe blazer" loading="lazy" /></figure>
+        <figure class="look portrait right reveal"><img src="assets/brochure/page-13.webp" alt="Vibe patterned overcoat" loading="lazy" /></figure>
+        <figure class="look portrait left reveal"><img src="assets/brochure/page-15.webp" alt="Green Sciamat tailored jacket" loading="lazy" /></figure>
+        <figure class="look portrait right reveal"><img src="assets/brochure/page-16.webp" alt="Sciamat striped summer tailoring" loading="lazy" /></figure>
+        <figure class="look portrait left reveal"><img src="assets/brochure/page-17.webp" alt="Black Sciamat tailored jacket" loading="lazy" /></figure>
+        <figure class="look portrait right reveal"><img src="assets/brochure/page-18.webp" alt="Navy Sciamat suit" loading="lazy" /></figure>
+      </section>
 
-<script>
-  // Custom cursor
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursor-ring');
-  let mx = 0, my = 0, rx = 0, ry = 0;
+      <section class="lady-title" id="lady">
+        <img src="assets/brochure/page-19.webp" alt="Lady Sciamat Milano" loading="lazy" />
+      </section>
 
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    cursor.style.left = mx + 'px';
-    cursor.style.top = my + 'px';
-  });
+      <section class="collection-intro lady-intro">
+        <div class="collection-copy reveal">
+          <p class="eyebrow">Lady Sciamat</p>
+          <h2 data-i18n="ladyTitle">Femininity, tailored without compromise.</h2>
+          <div data-i18n-html="ladyBody">
+            <p>Lady Sciamat rediscovers an authentic nature and defines a magnetic look, combining classical tailoring with distinctly feminine detail.</p>
+            <p>Pinstripes, embossed fabrics, coloured scarves, high-waisted trousers and generous skirts create an individual wardrobe, rich in proportion and personality.</p>
+          </div>
+        </div>
+        <figure class="lady-portrait reveal"><img src="assets/brochure/page-21.webp" alt="Lady Sciamat navy suit" loading="lazy" /></figure>
+      </section>
 
-  function animateRing() {
-    rx += (mx - rx) * 0.12;
-    ry += (my - ry) * 0.12;
-    ring.style.left = rx + 'px';
-    ring.style.top = ry + 'px';
-    requestAnimationFrame(animateRing);
-  }
-  animateRing();
+      <section class="lady-gallery" aria-label="Lady Sciamat collection">
+        <figure class="reveal"><img src="assets/brochure/page-22.webp" alt="Lady Sciamat double-breasted coat" loading="lazy" /></figure>
+        <figure class="reveal"><img src="assets/brochure/page-23.webp" alt="Lady Sciamat black suit" loading="lazy" /></figure>
+        <figure class="reveal"><img src="assets/brochure/page-24.webp" alt="Sciamat silk neckties" loading="lazy" /></figure>
+        <figure class="reveal"><img src="assets/brochure/page-25.webp" alt="Sciamat patterned silk scarf" loading="lazy" /></figure>
+        <figure class="reveal"><img src="assets/brochure/page-26.webp" alt="Lady Sciamat green shirt" loading="lazy" /></figure>
+        <figure class="reveal"><img src="assets/brochure/page-27.webp" alt="Lady Sciamat pinstripe suit" loading="lazy" /></figure>
+      </section>
 
-  // Intro animation
-  const intro = document.getElementById('intro');
-  const main = document.getElementById('main');
-  const lineTop = document.getElementById('line-top');
-  const lineBot = document.getElementById('line-bot');
-  const introName = document.getElementById('intro-name');
+      <section class="contact" id="contact">
+        <div class="contact-mark" aria-hidden="true"><span class="crown">♛</span><strong>SCIAMAT</strong><small>MILANO</small></div>
+        <div class="contact-copy">
+          <p class="eyebrow" data-i18n="contactEyebrow">Private appointments</p>
+          <h2 data-i18n="contactTitle">Begin a conversation.</h2>
+          <a href="mailto:info@sciamat.com">info@sciamat.com <span aria-hidden="true">↗</span></a>
+        </div>
+      </section>
+    </main>
 
-  function ease(t) { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; }
-
-  // Step 1: lines expand
-  setTimeout(() => {
-    const w = Math.min(window.innerWidth * 0.55, 520);
-    lineTop.style.transition = 'width 1.2s cubic-bezier(0.4,0,0.2,1)';
-    lineTop.style.width = w + 'px';
-    lineBot.style.transition = 'width 1.2s cubic-bezier(0.4,0,0.2,1)';
-    lineBot.style.width = w + 'px';
-  }, 200);
-
-  // Step 2: SCIAMAT fades in
-  setTimeout(() => {
-    introName.style.transition = 'opacity 1s ease, letter-spacing 1.2s ease';
-    introName.style.opacity = '1';
-    introName.style.letterSpacing = '0.2em';
-  }, 800);
-
-  // Step 3: hold then fade out
-  setTimeout(() => {
-    intro.style.transition = 'opacity 1s ease';
-    intro.style.opacity = '0';
-  }, 2800);
-
-  // Step 4: reveal main
-  setTimeout(() => {
-    intro.style.display = 'none';
-    main.style.transition = 'opacity 1.2s ease';
-    main.style.opacity = '1';
-
-    document.getElementById('heroImg').classList.add('zoomed');
-
-    setTimeout(() => {
-      document.querySelectorAll('.corner').forEach(c => c.classList.add('visible'));
-      document.getElementById('decoL').classList.add('visible');
-      document.getElementById('decoR').classList.add('visible');
-      document.getElementById('comingSoon').classList.add('visible');
-      document.getElementById('separator').classList.add('visible');
-    }, 300);
-
-    setTimeout(() => {
-      document.getElementById('socialRow').classList.add('visible');
-      document.getElementById('footer').classList.add('visible');
-    }, 800);
-
-  }, 3800);
-
-  // Parallax on mouse move
-  document.addEventListener('mousemove', e => {
-    if (parseFloat(main.style.opacity) < 0.5) return;
-    const xRatio = (e.clientX / window.innerWidth - 0.5) * 2;
-    const yRatio = (e.clientY / window.innerHeight - 0.5) * 2;
-    const img = document.getElementById('heroImg');
-    img.style.transform = `scale(1.0) translate(${xRatio * 6}px, ${yRatio * 4}px)`;
-  });
-</script>
-</body>
+    <footer>
+      <span>© <span data-year></span> Sciamat</span>
+      <a href="#home" data-i18n="backTop">Back to top ↑</a>
+    </footer>
+    <script src="script.js"></script>
+  </body>
 </html>
