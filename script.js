@@ -53,8 +53,28 @@ document.querySelectorAll(".reveal").forEach((element) => observer.observe(eleme
 
 let previousY = window.scrollY;
 const header = document.querySelector("[data-header]");
+const menuToggle = document.querySelector("[data-menu-toggle]");
+
+function setMenu(open) {
+  header.classList.toggle("menu-open", open);
+  menuToggle.setAttribute("aria-expanded", String(open));
+  document.body.style.overflow = open ? "hidden" : "";
+}
+
+menuToggle.addEventListener("click", () => setMenu(!header.classList.contains("menu-open")));
+document.querySelectorAll("#site-nav a").forEach((link) => {
+  link.addEventListener("click", () => setMenu(false));
+});
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && header.classList.contains("menu-open")) setMenu(false);
+});
+window.matchMedia("(min-width: 761px)").addEventListener("change", (event) => {
+  if (event.matches) setMenu(false);
+});
+
 window.addEventListener("scroll", () => {
   const y = window.scrollY;
+  if (header.classList.contains("menu-open")) return;
   header.classList.toggle("hidden", y > previousY && y > 180);
   previousY = y;
 }, { passive: true });
